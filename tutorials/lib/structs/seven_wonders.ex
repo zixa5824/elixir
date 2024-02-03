@@ -35,4 +35,31 @@ defmodule Tutorials.Structs.SevenWonders do
     wonders
     |> Enum.filter(fn %{country: country} -> String.starts_with?(country, "E") end)
   end
+
+  @spec length_of_country_name([t()]) :: [t()]
+  def length_of_country_name(wonders) do
+    wonders
+    |> Enum.sort(fn x, y -> String.length(x.country) < String.length(y.country) end)
+  end
+
+  @spec name_country_list(any()) :: list()
+  def name_country_list(wonders) do
+    wonders
+    |> Enum.reduce([], fn wonder, acc -> [[wonder.name, wonder.country] | acc] end)
+    |> Tutorials.Lists.rev
+  end
+
+  @spec name_country_Keyword_list(any()) :: list()
+  def name_country_Keyword_list(wonders) do
+    wonders
+    |> Enum.reduce([], fn wonder, acc -> [{String.to_atom(wonder.name), wonder.country} | acc] end)
+    |> Tutorials.Lists.rev
+  end
+
+  @spec all_names(any()) :: list()
+  def all_names(wonders) do
+    #Enum.map(wonders, fn %{name: name} -> name end)
+    #for %{name: name} <- wonders, do: name
+    Enum.map(wonders, &(&1.name))
+  end
 end
